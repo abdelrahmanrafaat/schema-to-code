@@ -18,9 +18,16 @@
             "email": "abdel.rahmanrafaat5@gmail.com"
         }
     ],
-    "autoload" : {
+    "autoload": {
         "psr-4":{
             "Abdelrahmanrafaat\\SchemaToCode\\" : "src/"
+        }
+    },
+    "extra":{
+        "laravel": {
+            "providers": [
+                "Abdelrahmanrafaat\\SchemaToCode\\Provider\\SchemaToCodeServiceProvider"
+            ]
         }
     }
 }
