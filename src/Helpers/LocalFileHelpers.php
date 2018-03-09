@@ -17,13 +17,19 @@ class LocalFileHelpers
     public $path;
 
     /**
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * LocalFileHelpers constructor.
      *
      * @param string $pathFromProjectRoot
      */
-    public function __construct(string $pathFromProjectRoot)
+    public function __construct(Filesystem $filesystem, string $pathFromProjectRoot)
     {
-        $this->path = $this->fullPath($pathFromProjectRoot);
+        $this->path       = $this->fullPath($pathFromProjectRoot);
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -35,7 +41,7 @@ class LocalFileHelpers
     {
         $rootDirectory = base_path();
 
-        return $rootDirectory . '/' . StringHelpers::trimSlashes($pathFromProjectRoot);
+        return $rootDirectory . DIRECTORY_SEPARATOR . StringHelpers::trimSlashes($pathFromProjectRoot);
     }
 
     /**
@@ -44,7 +50,7 @@ class LocalFileHelpers
      */
     public function getContents(): string
     {
-        return (new Filesystem())->get($this->path);
+        return $this->filesystem->get($this->path);
     }
 
     /**
@@ -52,7 +58,7 @@ class LocalFileHelpers
      */
     public function exists(): bool
     {
-        return (new Filesystem())->exists($this->path);
+        return $this->filesystem->exists($this->path);
     }
 
     /**
@@ -60,7 +66,7 @@ class LocalFileHelpers
      */
     public function isFile(): bool
     {
-        return (new Filesystem())->isFile($this->path);
+        return $this->filesystem->isFile($this->path);
     }
 
     /**
@@ -68,7 +74,7 @@ class LocalFileHelpers
      */
     public function isReadable(): bool
     {
-        return (new Filesystem())->isReadable($this->path);
+        return $this->filesystem->isReadable($this->path);
     }
 
     /**
@@ -76,6 +82,6 @@ class LocalFileHelpers
      */
     public function isTxt(): bool
     {
-        return (new Filesystem())->extension($this->path) === 'txt';
+        return $this->filesystem->extension($this->path) === 'txt';
     }
 }

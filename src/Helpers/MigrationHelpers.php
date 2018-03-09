@@ -4,7 +4,7 @@ namespace Abdelrahmanrafaat\SchemaToCode\Helpers;
 
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Constants;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\MigrationsCreator;
-use DateTime;
+use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
@@ -32,7 +32,7 @@ class MigrationHelpers
      */
     public static function getMigrationPath(string $migrationName): string
     {
-        $migrationsPath = app()->databasePath() . DIRECTORY_SEPARATOR . 'migrations';
+        $migrationsPath = self::getMigrationsDirectoryPath();
 
         return $migrationsPath . DIRECTORY_SEPARATOR . self::getDatePrefix() . '_' . $migrationName . '.php';
     }
@@ -40,9 +40,17 @@ class MigrationHelpers
     /**
      * @return string
      */
+    public static function getMigrationsDirectoryPath(): string
+    {
+        return app()->databasePath('migrations');
+    }
+
+    /**
+     * @return string
+     */
     public static function getDatePrefix(): string
     {
-        return DateTime::createFromFormat('U.u', microtime(true))->format("Y_m_d_H:i:s.u");
+        return Carbon::now()->format(Constants::MIGRATION_DATEPREFIX_FORMAT);
     }
 
     /**
@@ -65,11 +73,18 @@ class MigrationHelpers
         return 'update_' . ModelHelpers::modelNameToTableName($model) . '_relations';
     }
 
+    /**
+     * @param string $model
+     * @param string $relatedModel
+     *
+     * @return string
+     */
     public static function manyToManyTableName(string $model, string $relatedModel): string
     {
-        $sortedModels = array_sort([$model, $relatedModel]);
+        $models = [$model, $relatedModel];
+        sort($models);
 
-        return ModelHelpers::modelNameToTableName($sortedModels[0]) . '_' . ModelHelpers::modelNameToTableName($sortedModels[1]);
+        return ModelHelpers::modelNameToTableName($models[0]) . '_' . ModelHelpers::modelNameToTableName($models[1]);
     }
 
     /**
@@ -107,10 +122,9 @@ class MigrationHelpers
      */
     public static function manyToManyMigrationExist(string $model, string $relatedModel): bool
     {
-        $migrationClass         = self::manyToManyMigrationName($model, $relatedModel);
-        $reversedMigrationClass = self::manyToManyMigrationName($relatedModel, $model);
+        $migrationClass = self::manyToManyMigrationName($model, $relatedModel);
 
-        return MigrationsCreator::migrationExists($migrationClass) || MigrationsCreator::migrationExists($reversedMigrationClass);
+        return MigrationsCreator::migrationExists($migrationClass);
     }
 
 }
