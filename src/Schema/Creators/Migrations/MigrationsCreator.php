@@ -2,8 +2,9 @@
 
 namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations;
 
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator as RelationsCreatorInterface;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\CreatorInterface as RelationsCreatorInterface;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\CreatorInterface as TablesCreatorInterface;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Constants;
 
 /**
  * Class MigrationsCreator
@@ -44,7 +45,7 @@ class MigrationsCreator implements MigrationsCreatorInterface
      */
     public function createTable(string $model): void
     {
-        $this->tablesCreator->createTable($model);
+        self::addCreatedMigration($this->tablesCreator->createTable($model));
     }
 
     /**
@@ -55,7 +56,14 @@ class MigrationsCreator implements MigrationsCreatorInterface
      */
     public function createRelations(string $model, array $relations): void
     {
-        $this->relationsCreator->createRelations($model, $relations);
+        if (!empty($relations[Constants::BELONGS_TO])) {
+            $belongsToRelations = $this->relationsCreator->createBelongsToRelations($model, $relations[Constants::BELONGS_TO]);
+            self::addCreatedMigration($belongsToRelations);
+        }
+
+        $manyToManyMigrations = $this->relationsCreator->createBelongsToManyRelations($model, $relations[Constants::BELONGS_TO_MANY]);
+        foreach ($manyToManyMigrations as $migration)
+            self::addCreatedMigration($migration);
     }
 
     /**

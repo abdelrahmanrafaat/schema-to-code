@@ -6,8 +6,17 @@ use Orchestra\Testbench\TestCase;
 use Abdelrahmanrafaat\SchemaToCode\Helpers\StringHelpers;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class StringHelpersTest
+ *
+ * @package Tests\Helpers
+ */
 class StringHelpersTest extends TestCase
 {
+
+    /**
+     * @return void
+     */
     public function testTrimSlashes(): void
     {
         $this->assertEquals(StringHelpers::trimSlashes('/very/long/path/'), 'very/long/path');
@@ -16,6 +25,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::trimSlashes('very/long/path'), 'very/long/path');
     }
 
+    /**
+     * @return void
+     */
     public function testPlural(): void
     {
         $this->assertEquals(StringHelpers::plural('movie'), 'movies');
@@ -25,6 +37,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::plural('woman'), 'women');
     }
 
+    /**
+     * @return void
+     */
     public function testSingular(): void
     {
         $this->assertEquals(StringHelpers::singular( 'movies'), 'movie');
@@ -34,6 +49,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::singular( 'women'), 'woman');
     }
 
+    /**
+     * @return void
+     */
     public function testUpperCaseFirst(): void
     {
         $this->assertEquals(StringHelpers::upperCaseFirst( 'movie'), 'Movie');
@@ -41,6 +59,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::upperCaseFirst( ''), '');
     }
 
+    /**
+     * @return void
+     */
     public function testLowerCaseFirst(): void
     {
         $this->assertEquals(StringHelpers::lowerCaseFirst( 'Movie'), 'movie');
@@ -48,6 +69,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::lowerCaseFirst( ''), '');
     }
 
+    /**
+     * @return void
+     */
     public function testIsEmpty(): void
     {
         $this->assertTrue(StringHelpers::isEmpty(' '));
@@ -58,6 +82,9 @@ class StringHelpersTest extends TestCase
         $this->assertFalse(StringHelpers::isEmpty('a'));
     }
 
+    /**
+     * @return void
+     */
     public function testToLinesArray(): void
     {
         $this->assertCount(
@@ -82,6 +109,9 @@ class StringHelpersTest extends TestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testColonExplode(): void
     {
         $this->assertEquals(StringHelpers::colonExplode('x:y') , ['x', 'y']);
@@ -89,6 +119,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::colonExplode('') , ['']);
     }
 
+    /**
+     * @return void
+     */
     public function testLowerCase(): void
     {
         $this->assertEquals(StringHelpers::lowerCase('XyZ'), 'xyz');
@@ -96,6 +129,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::lowerCase('abc'), 'abc');
     }
 
+    /**
+     * @return void
+     */
     public function testCamelCase(): void
     {
         $this->assertEquals(StringHelpers::camelCase('my_name_is'), 'myNameIs');
@@ -103,6 +139,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::camelCase('noConversion'), 'noConversion');
     }
 
+    /**
+     * @return void
+     */
     public function testReplace(): void
     {
         $this->assertEquals(
@@ -116,6 +155,9 @@ class StringHelpersTest extends TestCase
         );
     }
 
+    /**
+     * @return void
+     */
     public function testSnakeCase(): void
     {
         $this->assertEquals(StringHelpers::snakeCase('myNameIs'), 'my_name_is');
@@ -123,6 +165,9 @@ class StringHelpersTest extends TestCase
         $this->assertEquals(StringHelpers::snakeCase('no_conversion'), 'no_conversion');
     }
 
+    /**
+     * @return void
+     */
     public function testPopulateStub(): void
     {
         $fileSystemMock = $this->getMockBuilder(Filesystem::class)->getMock();

@@ -40,9 +40,10 @@ class Creator implements CreatorInterface
     /**
      * @param string $model
      *
+     * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function createTable(string $model): void
+    public function createTable(string $model): string
     {
         $migrationName = MigrationHelpers::createTableMigrationName($model);
         $templates     = $this->templatesBuilder->createTableTemplate($model);
@@ -51,6 +52,7 @@ class Creator implements CreatorInterface
         $migrationPath = MigrationHelpers::getMigrationPath($migrationName);
 
         $this->fileSystem->put($migrationPath, $stub);
-        MigrationsCreator::addCreatedMigration($migrationName);
+
+        return $migrationName;
     }
 }

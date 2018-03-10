@@ -9,5 +9,19 @@ namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations;
  */
 interface CreatorInterface
 {
-    public function createRelations(string $model, array $relations) : void;
+    /**
+     * @param string $model
+     * @param array  $belongsToRelations
+     *
+     * @return string
+     */
+    public function createBelongsToRelations(string $model, array $belongsToRelations): string;
+
+    /**
+     * @param string $model
+     * @param array  $belongsToManyRelations
+     *
+     * @return array
+     */
+    public function createBelongsToManyRelations(string $model, array $belongsToManyRelations): array;
 }

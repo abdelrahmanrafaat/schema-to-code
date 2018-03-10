@@ -29,7 +29,7 @@ class Creator implements CreatorInterface
     /**
      * Creator constructor.
      *
-     * @param \Illuminate\Filesystem\Filesystem                             $fileSystem
+     * @param \Illuminate\Filesystem\Filesystem                                                    $fileSystem
      * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\BuilderInterface $templatesBuilder
      */
     public function __construct(Filesystem $fileSystem, BuilderInterface $templatesBuilder)
@@ -40,45 +40,32 @@ class Creator implements CreatorInterface
 
     /**
      * @param string $model
-     * @param array  $relations
-     *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function createRelations(string $model, array $relations): void
-    {
-        if (!empty($relations[Constants::BELONGS_TO]))
-            $this->createBelongsToRelations($model, $relations[Constants::BELONGS_TO]);
-
-        $this->createBelongsToManyRelations($model, $relations[Constants::BELONGS_TO_MANY]);
-    }
-
-    /**
-     * @param string $model
      * @param array  $belongsToRelations
      *
+     * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function createBelongsToRelations(string $model, array $belongsToRelations): void
+    public function createBelongsToRelations(string $model, array $belongsToRelations): string
     {
         $migrationName = MigrationHelpers::updateRelationsMigrationName($model);
         $templates     = $this->templatesBuilder->updateRelationsTemplate($model, $belongsToRelations);
 
-        $stub          = StringHelpers::populateStub($this->fileSystem, MigrationHelpers::updateRelationsStubPath(), $templates);
-        $migrationPath = MigrationHelpers::getMigrationPath($migrationName);
+        $stub = StringHelpers::populateStub($this->fileSystem, MigrationHelpers::updateRelationsStubPath(), $templates);
+        $this->createMigrationFile($migrationName, $stub);
 
-        $this->fileSystem->put($migrationPath, $stub);
-        MigrationsCreator::addCreatedMigration($migrationName);
+        return $migrationName;
     }
 
     /**
      * @param string $model
      * @param array  $belongsToManyRelations
      *
+     * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function createBelongsToManyRelations(string $model, array $belongsToManyRelations)
+    public function createBelongsToManyRelations(string $model, array $belongsToManyRelations): array
     {
-
+        $createdMigrations = [];
         foreach ($belongsToManyRelations as $relatedModel) {
             if (MigrationHelpers::manyToManyMigrationExist($model, $relatedModel))
                 continue;
@@ -86,11 +73,25 @@ class Creator implements CreatorInterface
             $migrationName = MigrationHelpers::manyToManyMigrationName($model, $relatedModel);
             $templates     = $this->templatesBuilder->createManyToManyTableTemplate($model, $relatedModel);
 
-            $stub          = StringHelpers::populateStub($this->fileSystem, MigrationHelpers::createTableStubPath(), $templates);
-            $migrationPath = MigrationHelpers::getMigrationPath($migrationName);
+            $stub = StringHelpers::populateStub($this->fileSystem, MigrationHelpers::createTableStubPath(), $templates);
+            $this->createMigrationFile($migrationName, $stub);
 
-            $this->fileSystem->put($migrationPath, $stub);
-            MigrationsCreator::addCreatedMigration($migrationName);
+            $createdMigrations[] = $migrationName;
         }
+
+        return $createdMigrations;
     }
+
+    /**
+     * @param string $migrationName
+     * @param string $stub
+     *
+     * @retun void
+     */
+    protected function createMigrationFile(string $migrationName, string $stub): void
+    {
+        $migrationPath = MigrationHelpers::getMigrationPath($migrationName);
+        $this->fileSystem->put($migrationPath, $stub);
+    }
+
 }

@@ -11,6 +11,8 @@ interface CreatorInterface
 {
     /**
      * @param string $model
+     *
+     * @return string
      */
-    public function createTable(string $model): void;
+    public function createTable(string $model): string;
 }
