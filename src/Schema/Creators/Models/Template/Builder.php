@@ -15,11 +15,11 @@ class Builder implements BuilderInterface
 {
     use DetectsApplicationNamespace;
 
-    protected $relationBuilder;
+    protected $relationBuilderFactory;
 
-    public function __construct(Relation $relationBuilder)
+    public function __construct(RelationFactory $relationBuilderFactory)
     {
-        $this->relationBuilder = $relationBuilder;
+        $this->relationBuilderFactory = $relationBuilderFactory;
     }
 
     /**
@@ -49,7 +49,7 @@ class Builder implements BuilderInterface
         $relationsTemplate = '';
         foreach ($relations as $relation => $relatedModels)
             foreach ($relatedModels as $relatedModel)
-                $relationsTemplate .= $this->relationBuilder->getBuilder($relation, $model, $relatedModel)->getTemplate();
+                $relationsTemplate .= $this->relationBuilderFactory->makeBuilder($relation, $model, $relatedModel)->getTemplate();
 
         return $relationsTemplate;
     }

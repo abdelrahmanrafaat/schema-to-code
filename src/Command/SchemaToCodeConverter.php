@@ -2,24 +2,25 @@
 
 namespace Abdelrahmanrafaat\SchemaToCode\Command;
 
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\CodeCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\MigrationsCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Creator as TablesCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator as RelationsCreator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\Builder as MigrationsTemplateBuilder;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\ModelsCreator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator as RelationsCreator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Builder as ModelsTemplateBuilder;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Relation as ModelRelationBuilder;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Getters\Getter;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\RelationFactory as ModelRelationBuilder;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Creator as TablesCreator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\MethodBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Aggregators\RelationsAggregator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\MigrationsCreator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsSymbolsParser;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\ModelsCreator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsParser;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\CodeCreator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\ModelsManager;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\ModelsParser;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsParser;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsSymbolsParser;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\SchemaParser;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Reporters\Reporter;
-use Illuminate\Console\Command;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Getters\Getter;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Console\Command;
 
 class SchemaToCodeConverter extends Command
 {
@@ -64,7 +65,7 @@ class SchemaToCodeConverter extends Command
             new Filesystem, new ModelsTemplateBuilder(new ModelRelationBuilder)
         );
 
-        $migrationsTemplateBuilder = new MigrationsTemplateBuilder;
+        $migrationsTemplateBuilder = new MigrationsTemplateBuilder(new MethodBuilder);
         $tablesCreator             = new TablesCreator(new Filesystem, $migrationsTemplateBuilder);
         $relationsCreator          = new RelationsCreator(new Filesystem, $migrationsTemplateBuilder);
         $migrationsCreator         = new MigrationsCreator($tablesCreator, $relationsCreator);

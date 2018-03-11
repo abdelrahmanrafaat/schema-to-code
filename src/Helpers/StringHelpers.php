@@ -56,7 +56,7 @@ class StringHelpers
      *
      * @return string
      */
-    public static function lowerCaseFirst(string $string):string
+    public static function lowerCaseFirst(string $string): string
     {
         return lcfirst($string);
     }
@@ -125,10 +125,29 @@ class StringHelpers
 
     /**
      * @param string $string
+     * @param int    $count
      *
      * @return string
      */
-    public static function snakeCase(string $string):string
+    public static function repeat(string $string, int $count): string
+    {
+        return str_repeat($string, $count);
+    }
+
+    /**
+     * @return string
+     */
+    public static function tab():string
+    {
+        return chr(9);
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function snakeCase(string $string): string
     {
         return snake_case($string);
     }

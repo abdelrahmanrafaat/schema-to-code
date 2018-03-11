@@ -9,7 +9,6 @@ namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template;
  */
 interface BuilderInterface
 {
-
     /**
      * @param string $model
      * @param array  $relations

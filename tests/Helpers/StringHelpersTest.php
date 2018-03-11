@@ -42,11 +42,11 @@ class StringHelpersTest extends TestCase
      */
     public function testSingular(): void
     {
-        $this->assertEquals(StringHelpers::singular( 'movies'), 'movie');
-        $this->assertEquals(StringHelpers::singular( 'users'), 'user');
-        $this->assertEquals(StringHelpers::singular( 'wolves'), 'wolf');
-        $this->assertEquals(StringHelpers::singular( 'men'), 'man');
-        $this->assertEquals(StringHelpers::singular( 'women'), 'woman');
+        $this->assertEquals(StringHelpers::singular('movies'), 'movie');
+        $this->assertEquals(StringHelpers::singular('users'), 'user');
+        $this->assertEquals(StringHelpers::singular('wolves'), 'wolf');
+        $this->assertEquals(StringHelpers::singular('men'), 'man');
+        $this->assertEquals(StringHelpers::singular('women'), 'woman');
     }
 
     /**
@@ -54,9 +54,9 @@ class StringHelpersTest extends TestCase
      */
     public function testUpperCaseFirst(): void
     {
-        $this->assertEquals(StringHelpers::upperCaseFirst( 'movie'), 'Movie');
-        $this->assertEquals(StringHelpers::upperCaseFirst( 'user'), 'User');
-        $this->assertEquals(StringHelpers::upperCaseFirst( ''), '');
+        $this->assertEquals(StringHelpers::upperCaseFirst('movie'), 'Movie');
+        $this->assertEquals(StringHelpers::upperCaseFirst('user'), 'User');
+        $this->assertEquals(StringHelpers::upperCaseFirst(''), '');
     }
 
     /**
@@ -64,9 +64,9 @@ class StringHelpersTest extends TestCase
      */
     public function testLowerCaseFirst(): void
     {
-        $this->assertEquals(StringHelpers::lowerCaseFirst( 'Movie'), 'movie');
-        $this->assertEquals(StringHelpers::lowerCaseFirst( 'User'), 'user');
-        $this->assertEquals(StringHelpers::lowerCaseFirst( ''), '');
+        $this->assertEquals(StringHelpers::lowerCaseFirst('Movie'), 'movie');
+        $this->assertEquals(StringHelpers::lowerCaseFirst('User'), 'user');
+        $this->assertEquals(StringHelpers::lowerCaseFirst(''), '');
     }
 
     /**
@@ -114,9 +114,9 @@ class StringHelpersTest extends TestCase
      */
     public function testColonExplode(): void
     {
-        $this->assertEquals(StringHelpers::colonExplode('x:y') , ['x', 'y']);
-        $this->assertEquals(StringHelpers::colonExplode('x::y') , ['x', '', 'y']);
-        $this->assertEquals(StringHelpers::colonExplode('') , ['']);
+        $this->assertEquals(StringHelpers::colonExplode('x:y'), ['x', 'y']);
+        $this->assertEquals(StringHelpers::colonExplode('x::y'), ['x', '', 'y']);
+        $this->assertEquals(StringHelpers::colonExplode(''), ['']);
     }
 
     /**
@@ -166,6 +166,30 @@ class StringHelpersTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testRepeat(): void
+    {
+        $this->assertEquals(StringHelpers::repeat('x', 0), '');
+
+        $this->assertEquals(StringHelpers::repeat('x', 1), 'x');
+        $this->assertEquals(StringHelpers::repeat('x', 2), 'xx');
+        $this->assertEquals(StringHelpers::repeat('x', 3), 'xxx');
+
+        $this->assertEquals(StringHelpers::repeat(chr(9), 2),'		');
+    }
+
+    /**
+     * @return void
+     */
+    public function testTab(): void
+    {
+        $this->assertEquals(StringHelpers::tab(), '	');
+    }
+
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
      * @return void
      */
     public function testPopulateStub(): void

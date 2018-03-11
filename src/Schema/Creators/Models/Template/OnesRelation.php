@@ -3,6 +3,7 @@
 namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template;
 
 use Abdelrahmanrafaat\SchemaToCode\Helpers\ModelHelpers;
+use Abdelrahmanrafaat\SchemaToCode\Helpers\StringHelpers;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Constants as RelationConstants;
 
 /**
@@ -21,6 +22,12 @@ class OnesRelation implements RelationBuilderInterface
      */
     protected $relatedModel;
 
+    /**
+     * OnesRelation constructor.
+     *
+     * @param string $relation
+     * @param string $relatedModel
+     */
     public function __construct(string $relation, string $relatedModel)
     {
         $this->relation     = $relation;
@@ -32,7 +39,7 @@ class OnesRelation implements RelationBuilderInterface
      */
     public function getTemplate(): string
     {
-        $tab        = chr(9);
+        $tab        = StringHelpers::tab();
         $methodName = ModelHelpers::modelNameToMethodName($this->relatedModel, $this->relation == RelationConstants::HAS_MANY);
         $newLine    = PHP_EOL;
 

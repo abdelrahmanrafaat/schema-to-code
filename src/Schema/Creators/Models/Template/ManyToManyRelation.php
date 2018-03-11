@@ -6,6 +6,7 @@ namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template;
 
 use Abdelrahmanrafaat\SchemaToCode\Helpers\MigrationHelpers;
 use Abdelrahmanrafaat\SchemaToCode\Helpers\ModelHelpers;
+use Abdelrahmanrafaat\SchemaToCode\Helpers\StringHelpers;
 
 class ManyToManyRelation implements RelationBuilderInterface
 {
@@ -41,8 +42,8 @@ class ManyToManyRelation implements RelationBuilderInterface
      */
     public function getTemplate(): string
     {
-        $tab                    = chr(9);
-        $methodName             = ModelHelpers::modelNameToMethodName($this->model, true);
+        $tab                    = StringHelpers::tab();
+        $methodName             = ModelHelpers::modelNameToMethodName($this->relatedModel, true);
         $pivotTable             = MigrationHelpers::manyToManyTableName($this->model, $this->relatedModel);
         $modelForeignKey        = ModelHelpers::modelNameToForeignKey($this->model);
         $relatedModelForeignKey = ModelHelpers::modelNameToForeignKey($this->relatedModel);
@@ -50,7 +51,7 @@ class ManyToManyRelation implements RelationBuilderInterface
 
         return "{$tab}public function {$methodName}(){$newLine}" .
                "{$tab}{{$newLine}" .
-               "{$tab}{$tab}return \$this->{$this->relation}({$this->model}::class,'{$pivotTable}','{$relatedModelForeignKey}','{$modelForeignKey}')->withTimestamps();{$newLine}" .
+               "{$tab}{$tab}return \$this->{$this->relation}({$this->relatedModel}::class, '{$pivotTable}', '{$modelForeignKey}', '{$relatedModelForeignKey}')->withTimestamps();{$newLine}" .
                "{$tab}}{$newLine}{$newLine}";
     }
 }
