@@ -60,7 +60,7 @@ class Creator implements CreatorInterface
      * @param string $model
      * @param array  $belongsToManyRelations
      *
-     * @return string
+     * @return array
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function createBelongsToManyRelations(string $model, array $belongsToManyRelations): array
@@ -86,7 +86,7 @@ class Creator implements CreatorInterface
      * @param string $migrationName
      * @param string $stub
      *
-     * @retun void
+     * @return void
      */
     protected function createMigrationFile(string $migrationName, string $stub): void
     {

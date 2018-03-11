@@ -2,12 +2,9 @@
 
 namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template;
 
-use Abdelrahmanrafaat\SchemaToCode\Helpers\MigrationHelpers;
+use Illuminate\Console\DetectsApplicationNamespace;
 use Abdelrahmanrafaat\SchemaToCode\Helpers\ModelHelpers;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Constants as TemplateConstants;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\ModelsCreator;
-use \Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Constants as RelationConstants;
-use Illuminate\Console\DetectsApplicationNamespace;
 
 /**
  * Class Builder
@@ -17,6 +14,13 @@ use Illuminate\Console\DetectsApplicationNamespace;
 class Builder implements BuilderInterface
 {
     use DetectsApplicationNamespace;
+
+    protected $relationBuilder;
+
+    public function __construct(Relation $relationBuilder)
+    {
+        $this->relationBuilder = $relationBuilder;
+    }
 
     /**
      * @param string $model
@@ -44,75 +48,10 @@ class Builder implements BuilderInterface
     {
         $relationsTemplate = '';
         foreach ($relations as $relation => $relatedModels)
-            $relationsTemplate .= $this->getRelationTemplate($relation, $model, $relatedModels);
+            foreach ($relatedModels as $relatedModel)
+                $relationsTemplate .= $this->relationBuilder->getBuilder($relation, $model, $relatedModel)->getTemplate();
 
         return $relationsTemplate;
-    }
-
-    /**
-     * @param string $relation
-     * @param string $model
-     * @param array  $relatedModels
-     *
-     * @return string
-     */
-    protected function getRelationTemplate(string $relation, string $model, array $relatedModels): string
-    {
-        $template = '';
-        foreach ($relatedModels as $index => $relatedModel) {
-            if ($relation == RelationConstants::BELONGS_TO_MANY) {
-                $template .= $this->belongsToManyTemplate($relation, $model, $relatedModel, $index != 0);
-                continue;
-            }
-
-            $template .= $this->relationTemplate($relation, $relatedModel, $index != 0);
-        }
-
-        return $template;
-    }
-
-    /**
-     * @param string $relation
-     * @param string $relatedModel
-     * @param bool   $withIndentation
-     *
-     * @return string
-     */
-    protected function relationTemplate(string $relation, string $relatedModel, bool $withIndentation = false): string
-    {
-        $tab         = chr(9);
-        $methodName  = ModelHelpers::modelNameToMethodName($relatedModel, $relation == RelationConstants::HAS_MANY);
-        $newLine     = PHP_EOL;
-        $indentation = ($withIndentation) ? $tab : '';
-
-        return "{$indentation}public function {$methodName}(){$newLine}" .
-               "{$tab}{{$newLine}" .
-               "{$tab}{$tab}return \$this->{$relation}({$relatedModel}::class);{$newLine}" .
-               "{$tab}}{$newLine}{$newLine}";
-    }
-
-    /**
-     * @param string $relation
-     * @param string $model
-     * @param string $relatedModel
-     * @param bool   $withIndentation
-     *
-     * @return string
-     */
-    protected function belongsToManyTemplate(string $relation, string $model, string $relatedModel, bool $withIndentation = false): string
-    {
-        $tab                    = chr(9);
-        $methodName             = ModelHelpers::modelNameToMethodName($model, true);
-        $pivotTable             = MigrationHelpers::manyToManyTableName($model, $relatedModel);
-        $modelForeignKey        = ModelHelpers::modelNameToForeignKey($model);
-        $relatedModelForeignKey = ModelHelpers::modelNameToForeignKey($relatedModel);
-        $newLine                = PHP_EOL;
-        $indentation            = ($withIndentation) ? $tab : '';
-
-        return "{$indentation}public function {$methodName}(){$newLine}" .
-               "{$tab}{{$newLine}" .
-               "{$tab}{$tab}return \$this->{$relation}({$model}::class,'{$pivotTable}','{$relatedModelForeignKey}','{$modelForeignKey}')->withTimestamps();{$newLine}" .
-               "{$tab}}{$newLine}{$newLine}";
     }
 
 }

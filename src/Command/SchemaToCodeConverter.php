@@ -9,6 +9,7 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator 
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\Builder as MigrationsTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\ModelsCreator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Builder as ModelsTemplateBuilder;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Relation as ModelRelationBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Getters\Getter;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Aggregators\RelationsAggregator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\ModelsManager;
@@ -60,7 +61,7 @@ class SchemaToCodeConverter extends Command
         ))->parse($schema);
 
         $modelsCreator = new ModelsCreator(
-            new Filesystem, new ModelsTemplateBuilder
+            new Filesystem, new ModelsTemplateBuilder(new ModelRelationBuilder)
         );
 
         $migrationsTemplateBuilder = new MigrationsTemplateBuilder;

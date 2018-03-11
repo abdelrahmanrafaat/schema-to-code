@@ -31,8 +31,8 @@ class MigrationsCreator implements MigrationsCreatorInterface
     /**
      * MigrationsCreator constructor.
      *
-     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\CreatorInterface $tablesCreator
-     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator       $relationsCreator
+     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\CreatorInterface    $tablesCreator
+     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\CreatorInterface $relationsCreator
      */
     public function __construct(TablesCreatorInterface $tablesCreator, RelationsCreatorInterface $relationsCreator)
     {
@@ -51,8 +51,6 @@ class MigrationsCreator implements MigrationsCreatorInterface
     /**
      * @param string $model
      * @param array  $relations
-     *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function createRelations(string $model, array $relations): void
     {

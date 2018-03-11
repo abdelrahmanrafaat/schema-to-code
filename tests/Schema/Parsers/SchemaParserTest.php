@@ -13,6 +13,7 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\ModelsManager;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsParser;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsSymbolsParser;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Aggregators\RelationsAggregator;
+use Tests\Data\Provider;
 
 /**
  * Class SchemaParserTest
@@ -21,25 +22,25 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Aggregators\RelationsAggregato
  */
 class SchemaParserTest extends TestCase
 {
+    /**
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Getters\Local\ExtensionNotTxt
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Getters\Local\NotFile
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Getters\Local\NotFound
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Getters\Local\NotReadable
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\EmptySchema
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\NotEvenLinesCount
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @return void
+     */
     public function testParse(): void
     {
+        $dataProvider = new Provider;
+
         $fileSystemMock = $this->getMockBuilder(Filesystem::class)->getMock();
         $fileSystemMock->method('get')
-                       ->willReturn('User:Profile
-                                    1:1
-                                    
-                                    User:Actor
-                                    1:1
-                                    
-                                    Actor:Movie
-                                    M:m
-                                    
-                                    Movie:Review
-                                    1:M
-                                    
-                                    Review:User
-                                    M:1
-                       ');
+                       ->willReturn($dataProvider->unParsedSchema());
+
         $fileSystemMock->method('exists')->willReturn(true);
         $fileSystemMock->method('isFile')->willReturn(true);
         $fileSystemMock->method('isReadable')->willReturn(true);
@@ -54,38 +55,7 @@ class SchemaParserTest extends TestCase
 
         $this->assertEquals(
             $parsedSchema,
-            [
-                'User'    => [
-                    Constants::HAS_ONE         => ['Profile', 'Actor'],
-                    Constants::BELONGS_TO      => [],
-                    Constants::HAS_MANY        => ['Review'],
-                    Constants::BELONGS_TO_MANY => [],
-                ],
-                'Profile' => [
-                    Constants::HAS_ONE         => [],
-                    Constants::BELONGS_TO      => ['User'],
-                    Constants::HAS_MANY        => [],
-                    Constants::BELONGS_TO_MANY => [],
-                ],
-                'Actor'   => [
-                    Constants::HAS_ONE         => [],
-                    Constants::BELONGS_TO      => ['User'],
-                    Constants::HAS_MANY        => [],
-                    Constants::BELONGS_TO_MANY => ['Movie'],
-                ],
-                'Movie'   => [
-                    Constants::HAS_ONE         => [],
-                    Constants::BELONGS_TO      => [],
-                    Constants::HAS_MANY        => ['Review'],
-                    Constants::BELONGS_TO_MANY => ['Actor'],
-                ],
-                'Review'  => [
-                    Constants::HAS_ONE         => [],
-                    Constants::BELONGS_TO      => ['Movie', 'User'],
-                    Constants::HAS_MANY        => [],
-                    Constants::BELONGS_TO_MANY => [],
-                ],
-            ]
+            $dataProvider->parsedSchema()
         );
     }
 

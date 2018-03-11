@@ -1,0 +1,14 @@
+User:Profile
+1:1
+
+User:Actor
+1:1
+
+Actor:Movie
+M:m
+
+Movie:Review
+1:M
+
+Review:User
+M:1

@@ -14,6 +14,8 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\InvalidRelationsSyn
 class RelationsSymbolsParserTest extends TestCase
 {
     /**
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\InvalidRelationsSyntax
+     *
      * @return void
      */
     public function testInvalidSymbolsThrowsException(): void
@@ -23,6 +25,8 @@ class RelationsSymbolsParserTest extends TestCase
     }
 
     /**
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\InvalidRelationsSyntax
+     *
      * @return void
      */
     public function testParse(): void

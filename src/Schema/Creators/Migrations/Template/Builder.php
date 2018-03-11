@@ -61,7 +61,7 @@ class Builder implements BuilderInterface
 
         $relations = '';
         foreach ($belongsToRelations as $index => $relatedModel)
-            $relations .= $this->getBelongsToTemplate($relatedModel, $index != 0);
+            $relations .= $this->getBelongsToTemplate($relatedModel, $index);
 
         return [
             Constants::TABLE_NAME_TEMPLATE_KEY => ModelHelpers::modelNameToTableName($model),

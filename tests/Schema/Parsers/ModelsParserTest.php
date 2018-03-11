@@ -14,6 +14,8 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\InvalidModelsSyntax
 class ModelsParserTest extends TestCase
 {
     /**
+     * @throws \Abdelrahmanrafaat\SchemaToCode\Schema\Exceptions\Parsers\InvalidModelsSyntax
+     *
      * @return void
      */
     public function testParse(): void
