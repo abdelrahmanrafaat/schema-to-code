@@ -2,10 +2,9 @@
 
 namespace Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables;
 
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\BuilderInterface;
 use Abdelrahmanrafaat\SchemaToCode\Helpers\MigrationHelpers;
 use Abdelrahmanrafaat\SchemaToCode\Helpers\StringHelpers;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\MigrationsCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\BuilderInterface;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -21,7 +20,7 @@ class Creator implements CreatorInterface
     protected $fileSystem;
 
     /**
-     * @var \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\BuilderInterface
+     * @var \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\BuilderInterface
      */
     protected $templatesBuilder;
 
@@ -29,7 +28,7 @@ class Creator implements CreatorInterface
      * Creator constructor.
      *
      * @param \Illuminate\Filesystem\Filesystem                             $fileSystem
-     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\BuilderInterface $templatesBuilder
+     * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\BuilderInterface $templatesBuilder
      */
     public function __construct(Filesystem $fileSystem, BuilderInterface $templatesBuilder)
     {

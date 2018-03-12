@@ -19,5 +19,5 @@ class Constants
     const CREATE_MODEL_STUB_NAME   = 'create_model.stub';
     const NAME_SPACE_TEMPLATE_KEYS = 'DummyNamespace';
 
-    const MIGRATION_DATEPREFIX_FORMAT = 'Y_m_d_H:i:s.u';
+    const MIGRATION_DATE_PREFIX_FORMAT = 'Y_m_d_H:i:s.u';
 }

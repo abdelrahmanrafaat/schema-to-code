@@ -50,7 +50,7 @@ class MigrationHelpers
      */
     public static function getDatePrefix(): string
     {
-        return Carbon::now()->format(Constants::MIGRATION_DATEPREFIX_FORMAT);
+        return Carbon::now()->format(Constants::MIGRATION_DATE_PREFIX_FORMAT);
     }
 
     /**

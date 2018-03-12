@@ -2,12 +2,13 @@
 
 namespace Abdelrahmanrafaat\SchemaToCode\Command;
 
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\Builder as MigrationsTemplateBuilder;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Template\Builder as MigrationsTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator as RelationsCreator;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\Builder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Builder as ModelsTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\RelationFactory as ModelRelationBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Creator as TablesCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Template\MethodBuilder;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Template\MethodBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Aggregators\RelationsAggregator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\MigrationsCreator;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\RelationsSymbolsParser;
@@ -65,10 +66,11 @@ class SchemaToCodeConverter extends Command
             new Filesystem, new ModelsTemplateBuilder(new ModelRelationBuilder)
         );
 
-        $migrationsTemplateBuilder = new MigrationsTemplateBuilder(new MethodBuilder);
-        $tablesCreator             = new TablesCreator(new Filesystem, $migrationsTemplateBuilder);
-        $relationsCreator          = new RelationsCreator(new Filesystem, $migrationsTemplateBuilder);
-        $migrationsCreator         = new MigrationsCreator($tablesCreator, $relationsCreator);
+        $tablesTemplateBuilder    = new Builder;
+        $tablesCreator            = new TablesCreator(new Filesystem, $tablesTemplateBuilder);
+        $relationsTemplateBuilder = new MigrationsTemplateBuilder(new MethodBuilder);
+        $relationsCreator         = new RelationsCreator(new Filesystem, $relationsTemplateBuilder);
+        $migrationsCreator        = new MigrationsCreator($tablesCreator, $relationsCreator);
 
         (new CodeCreator($modelsCreator, $migrationsCreator))->create($parsedSchema);
 
