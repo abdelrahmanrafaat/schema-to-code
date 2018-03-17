@@ -60,7 +60,8 @@ class CodeCreator
      */
     protected function createModels(array $parsedSchema): void
     {
-        foreach ($parsedSchema as $model => $relations)
+        foreach ($parsedSchema as $model => $relations){
             $this->modelsCreator->create($model, $relations);
+        }
     }
 }

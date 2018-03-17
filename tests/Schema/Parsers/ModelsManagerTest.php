@@ -2,9 +2,9 @@
 
 namespace Tests\Schema\Parsers;
 
-use Orchestra\Testbench\TestCase;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\ModelsManager;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Constants;
+use Orchestra\Testbench\TestCase;
 
 /**
  * Class ModelsManagerTest

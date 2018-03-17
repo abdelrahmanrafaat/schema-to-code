@@ -89,6 +89,14 @@ class MigrationsCreator implements MigrationsCreatorInterface
     }
 
     /**
+     * @return void
+     */
+    public static function resetCreatedMigrations(): void
+    {
+        self::$createdMigrations = [];
+    }
+
+    /**
      * @param string $migrationName
      *
      * @return bool
@@ -97,6 +105,7 @@ class MigrationsCreator implements MigrationsCreatorInterface
     {
         return in_array($migrationName, self::getCreatedMigrations());
     }
+
 
 }
 

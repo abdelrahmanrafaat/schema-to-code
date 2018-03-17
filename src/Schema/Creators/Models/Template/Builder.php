@@ -31,11 +31,19 @@ class Builder implements BuilderInterface
     public function createModelTemplate(string $model, array $relations): array
     {
         return [
-            TemplateConstants::CLASS_NAME_TEMPLATE_KEY  => $model,
-            TemplateConstants::TABLE_NAME_TEMPLATE_KEY  => ModelHelpers::modelNameToTableName($model),
-            TemplateConstants::RELATIONS_TEMPLATE_KEY   => $this->buildRelationsTemplate($model, $relations),
-            TemplateConstants::NAME_SPACE_TEMPLATE_KEYS => rtrim($this->getAppNamespace(), '\\'),
+            TemplateConstants::CLASS_NAME_TEMPLATE_KEY => $model,
+            TemplateConstants::TABLE_NAME_TEMPLATE_KEY => ModelHelpers::modelNameToTableName($model),
+            TemplateConstants::RELATIONS_TEMPLATE_KEY  => $this->buildRelationsTemplate($model, $relations),
+            TemplateConstants::NAME_SPACE_TEMPLATE_KEY => $this->getModelNamespace(),
         ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelNamespace(): string
+    {
+        return rtrim($this->getAppNamespace(), '\\');
     }
 
     /**

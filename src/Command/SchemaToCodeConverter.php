@@ -4,7 +4,7 @@ namespace Abdelrahmanrafaat\SchemaToCode\Command;
 
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Template\Builder as MigrationsTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Relations\Creator as RelationsCreator;
-use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\Builder;
+use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Template\Builder as TablesTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\Builder as ModelsTemplateBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\RelationFactory as ModelRelationBuilder;
 use Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Migrations\Tables\Creator as TablesCreator;
@@ -61,12 +61,12 @@ class SchemaToCodeConverter extends Command
         $parsedSchema = (new SchemaParser(
             new ModelsParser, new RelationsParser(new RelationsSymbolsParser, new RelationsAggregator), new ModelsManager
         ))->parse($schema);
-
+        
         $modelsCreator = new ModelsCreator(
             new Filesystem, new ModelsTemplateBuilder(new ModelRelationBuilder)
         );
 
-        $tablesTemplateBuilder    = new Builder;
+        $tablesTemplateBuilder    = new TablesTemplateBuilder;
         $tablesCreator            = new TablesCreator(new Filesystem, $tablesTemplateBuilder);
         $relationsTemplateBuilder = new MigrationsTemplateBuilder(new MethodBuilder);
         $relationsCreator         = new RelationsCreator(new Filesystem, $relationsTemplateBuilder);

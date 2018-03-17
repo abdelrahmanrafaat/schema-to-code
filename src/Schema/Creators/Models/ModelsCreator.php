@@ -25,7 +25,7 @@ class ModelsCreator implements ModelsCreatorInterface
     /**
      * ModelsCreator constructor.
      *
-     * @param \Illuminate\Filesystem\Filesystem                         $fileSystem
+     * @param \Illuminate\Filesystem\Filesystem                                                $fileSystem
      * @param \Abdelrahmanrafaat\SchemaToCode\Schema\Creators\Models\Template\BuilderInterface $templatesBuilder
      */
     public function __construct(Filesystem $fileSystem, BuilderInterface $templatesBuilder)
@@ -73,5 +73,13 @@ class ModelsCreator implements ModelsCreatorInterface
     public static function getCreatedModels(): array
     {
         return self::$createdModels;
+    }
+
+    /**
+     * @return void
+     */
+    public static function resetCreatedModels(): void
+    {
+        self::$createdModels = [];
     }
 }

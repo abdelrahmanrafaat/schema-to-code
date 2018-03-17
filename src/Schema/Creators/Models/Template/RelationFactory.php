@@ -11,7 +11,6 @@ use Abdelrahmanrafaat\SchemaToCode\Schema\Parsers\Constants as RelationConstants
  */
 class RelationFactory
 {
-
     /**
      * @param string $relation
      * @param string $model

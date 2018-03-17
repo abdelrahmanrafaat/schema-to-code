@@ -34,7 +34,7 @@ class MigrationHelpersTest extends TestCase
     {
         $this->assertInstanceOf(
             Carbon::class,
-            Carbon::createFromFormat(Constants::MIGRATION_DATEPREFIX_FORMAT, MigrationHelpers::getDatePrefix())
+            Carbon::createFromFormat(Constants::MIGRATION_DATE_PREFIX_FORMAT, MigrationHelpers::getDatePrefix())
         );
 
         $invalidPrefixFormat = 'y-m-d-H';

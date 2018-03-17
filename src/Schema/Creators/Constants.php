@@ -16,8 +16,8 @@ class Constants
     const CREATE_TABLE_STUB_NAME     = 'create_table.stub';
     const UPDATE_RELATIONS_STUB_NAME = 'update_relations.stub';
 
-    const CREATE_MODEL_STUB_NAME   = 'create_model.stub';
-    const NAME_SPACE_TEMPLATE_KEYS = 'DummyNamespace';
+    const CREATE_MODEL_STUB_NAME  = 'create_model.stub';
+    const NAME_SPACE_TEMPLATE_KEY = 'DummyNamespace';
 
     const MIGRATION_DATE_PREFIX_FORMAT = 'Y_m_d_H:i:s.u';
 }
