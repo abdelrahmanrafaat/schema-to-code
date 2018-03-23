@@ -135,6 +135,7 @@ M:1
 
 ---
 #### Final Notes :
+- **Don\`t use this package if you have an existing models, because it will override them if they were written in schema file** 
 - Models are created in /app directory
 - Migrations are created in /database/migrations directory
 - All the created migrations follows laravel naming conventions and the relations in the models and migrations also follows laravel naming conventions
