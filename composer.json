@@ -3,13 +3,11 @@
     "description": "Converts DB schema to Laravel code (Migrations & Models)",
     "type": "library",
     "keywords" : ["laravel", "schema", "migrations", "models"],
-    "minimum-stability": "dev",
-    "version": "1.0.0-dev",
     "require": {
-        "php": "^7.1"
+        "php": "~7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "~7.0",
         "orchestra/testbench": "~3.0"
     },
     "license": "MIT",
@@ -30,6 +28,11 @@
             "providers": [
                 "Abdelrahmanrafaat\\SchemaToCode\\Provider\\SchemaToCodeServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-master": "1.0-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
