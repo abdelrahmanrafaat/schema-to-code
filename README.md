@@ -85,7 +85,7 @@ Laravel Packages for Converting Relatinal Database schema with a predefined synt
 
 ***
 
-##### A Full Example for a complete schema 
+##### An Example for a complete schema 
 ```
 User:Profile
 1:1
@@ -134,6 +134,18 @@ M:1
 | Review             |
 
 ---
+### 6- Migrate
+- Every thing is set now, just run the migrate command to create the tables and relations in your DB
+```
+  $ php artisan migrate
+```
+
+---
+### 7- Explore
+- Now open the created models in the /app directory to see the methods defined for the relations of each model and to know how to call them in your code
+- Open the /database/migrations directory to see the defentations for the relations, and to start adding some fields for every table
+---
+
 #### Final Notes :
 - **Don\`t use this package if you have an existing models, because it will override them if they were written in schema file** 
 - Models are created in /app directory
