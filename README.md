@@ -10,7 +10,7 @@ Laravel Packages for Converting Relational Database schema with a predefined syn
 ---
 ### 1- Package Installation
 ```
-  $ composer require abdelrahmanrafaat/schema-to-code 
+  $ composer require abdelrahmanrafaat/schema-to-code:dev-master
 ```
 ---
 ### 2- Package Usage
