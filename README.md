@@ -4,7 +4,7 @@ Laravel Packages for Converting Relational Database schema with a predefined syn
 
 ---
 ### Package Use-cases
-- If you want to a fast way to scaffold your models and migrations without writing bunch of commands and going through multiple files to define relations in the models and migrations
+- If you want a fast way to scaffold your models and migrations without writing bunch of commands and going through multiple files to define relations in the models and migrations
 - For example creating MVP or small project and you already have a DB schema in your mind 
 
 ---
@@ -15,7 +15,7 @@ Laravel Packages for Converting Relational Database schema with a predefined syn
 ---
 ### 2- Package Usage
 
-- Create schema file and put it anywhere accessible from project root directory
+- Create schema file and put it anywhere accessible from the project root directory
 - Schema file should be **.txt** extension
 - Creating schema.txt in the app directory
 
