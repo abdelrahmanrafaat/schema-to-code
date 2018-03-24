@@ -1,6 +1,6 @@
 # schema-to-code
 
-Laravel Packages for Converting Relatinal Database schema with a predefined syntax To code (Models & Migrations)
+Laravel Packages for Converting Relational Database schema with a predefined syntax To code (Models & Migrations)
 
 ---
 ### Package Use-cases
