@@ -72,7 +72,7 @@ Laravel Packages for Converting Relational Database schema with a predefined syn
 ##### Many to Many Relation
 
 - Defining a relation between product and cart as many to many relation
-- (**Cart has many Orders** and **Product can be in multiple Carts**) it will be written like this :
+- (**Cart has many Product** and **Product can be in multiple Carts**) it will be written like this :
  ```
    cart : product
      m  :   m 
